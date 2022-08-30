@@ -124,7 +124,7 @@ async function insertTokenPricesTimeType(pricesData) {
 async function createTablesIfNotExists() {
   const query = `
     CREATE TABLE IF NOT EXISTS "token_prices" (
-        "unix_time" BIGINT,
+      "unix_time" BIGINT,
 	    "token_address" VARCHAR(32) NOT NULL,
 	    "price_in_usd" FLOAT,
         "price_in_kda" FLOAT
