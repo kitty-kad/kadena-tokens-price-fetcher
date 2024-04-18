@@ -144,6 +144,8 @@ async function createTablesIfNotExists() {
         "price_in_kda_end" FLOAT
     );
     CREATE INDEX IF NOT EXISTS token_address_time ON token_prices_timed (token_address, time_type, unix_time);
+    ALTER TABLE "token_prices" ALTER COLUMN "token_address" TYPE VARCHAR(128);
+    ALTER TABLE "token_prices_timed" ALTER COLUMN "token_address" TYPE VARCHAR(128);
     `;
   executeQuery(query);
 }
