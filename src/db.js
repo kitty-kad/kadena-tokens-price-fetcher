@@ -9,8 +9,9 @@ if (process.env.IS_DEV) {
     port: process.env.DB_PORT,
   });
 } else {
+  const DB_URL = process.env.DATABASE_URL_V2 ?? process.env.DATABASE_URL;
   pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: DB_URL,
     ssl: {
       rejectUnauthorized: false,
     },
