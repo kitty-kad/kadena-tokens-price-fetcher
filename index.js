@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const { TIME_TYPE } = require("./src/enums");
 const { getTokenPrices, getTimeTypeTokenPrices } = require("./src/db");
+const { runChron } = require('./chron');
 const tokensData = require("./src/tokens.json");
 
 const app = express();
@@ -57,6 +58,14 @@ app.get("/getTokenMetadata", async (_req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.json(tokensData);
 });
+
+const callbackUrl = process.env.CALLBACK_URL;
+if (callbackUrl) {
+  app.get(`/${callbackUrl}`, async (_req, res) => {
+    res.send("success");
+    await runChron();
+  });
+}
 
 const port = process.env.PORT;
 app.listen(port, () => {

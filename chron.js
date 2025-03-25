@@ -12,7 +12,7 @@ const tokensData = require("./src/tokens.json");
 const SECONDS_IN_HOUR = 60 * 60;
 const SECONDS_IN_DAY = SECONDS_IN_HOUR * 24;
 
-(async () => {
+async function runChron() {
   pricesData = await fetchAllPrices();
   // Insert general data into the database
   await insertTokenPrices(pricesData);
@@ -25,7 +25,7 @@ const SECONDS_IN_DAY = SECONDS_IN_HOUR * 24;
       console.log(`Error updating time type data ${e}`);
     }
   }
-})();
+}
 
 async function updatePriceForTimeType(token_address, time_type) {
   const latestTimeTypeUpdated =
@@ -109,3 +109,9 @@ function updateLowsAndHighs(curr, row) {
     ),
   };
 }
+
+if (!process.env.CALLBACK_URL) {
+  runChron();
+}
+
+module.exports = { runChron };
