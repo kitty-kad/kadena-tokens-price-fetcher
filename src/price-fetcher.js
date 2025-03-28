@@ -12,9 +12,9 @@ async function fetchAllPrices() {
       CoinGeckoClient.simple.price({ ids: "kadena", vs_currencies: "usd" }),
     "get KDA price in USD from coin gecko"
   );
-  const kdaToUsd = coinGeckoResponse.data.kadena.usd;
+  const kdaToUsd = coinGeckoResponse?.data?.kadena?.usd;
   if (kdaToUsd == null) {
-    throw new Error("COULD NOT GET KDA PRICE IN USD");
+    throw new Error(`COULD NOT GET KDA PRICE IN USD, got response: ${coinGeckoResponse}`);
   }
   // 2. Go through each token, get the price in KDA and use KDA -> USD calculate USD value
   const prices = [];
@@ -38,7 +38,7 @@ async function fetchAllPrices() {
 }
 
 async function retryNetworkRequest(f, name) {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     try {
       const response = await f();
       if (response != null) {
